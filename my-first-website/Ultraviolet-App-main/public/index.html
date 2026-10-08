@@ -24,11 +24,6 @@
 		<link rel="shortcut icon" content="favicon.ico" />
 		<link rel="stylesheet" href="index.css" />
 
-		<!-- Core Ultraviolet dependencies -->
-	<script src="/baremux/index.js"></script>
-<script src="/uv/uv.bundle.js"></script>
-<script src="/uv/uv.config.js"></script>
-<script src="/index.js"></script>
 		<script type="application/ld+json">
 			{
 				"@context": "https://schema.org",
@@ -101,9 +96,14 @@
 		</footer>
 		<iframe style="display: none" id="uv-frame"></iframe>
 
-		<!-- Client Scripts loaded at the end of the body -->
+		<!-- Core Ultraviolet & BareMux dependencies -->
+		<script src="/baremux/index.js"></script>
+		<script src="/uv/uv.bundle.js"></script>
+		<script src="/uv/uv.config.js"></script>
+		
+		<!-- Service worker setup and ES Module main script -->
 		<script src="register-sw.js"></script>
+		<script type="module" src="index.js"></script>
 		<script src="search.js"></script>
-		<script src="index.js"></script>
 	</body>
 </html>
