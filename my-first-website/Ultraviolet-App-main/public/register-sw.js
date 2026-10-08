@@ -14,15 +14,11 @@ const swAllowedHostnames = ["localhost", "127.0.0.1"];
  * Used in 404.html and index.html
  */
 async function registerSW() {
-	if (!navigator.serviceWorker) {
-		if (
-			location.protocol !== "https:" &&
-			!swAllowedHostnames.includes(location.hostname)
-		)
-			throw new Error("Service workers cannot be registered without https.");
+  if (!('serviceWorker' in navigator)) {
+    throw new Error('Service workers are not supported in this browser.');
+  }
 
-		throw new Error("Your browser doesn't support service workers.");
-	}
-
-	await navigator.serviceWorker.register(stockSW);
+  await navigator.serviceWorker.register('/uv/uv.sw.js', {
+    scope: __uv$config.prefix,
+  });
 }
