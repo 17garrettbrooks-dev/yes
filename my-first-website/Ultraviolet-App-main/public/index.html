@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Ultraviolet App</title>
-  <!-- Add these inside <head> without removing your stylesheet links -->
-<script src="/uv/uv.bundle.js"></script>
-<script src="/uv/uv.config.js"></script>
-<script src="/baremux/index.js"></script>
+    <!-- Defer loading to guarantee global variables exist before client execution -->
+    <script src="/uv/uv.bundle.js" defer></script>
+    <script src="/uv/uv.config.js" defer></script>
+    <script src="/baremux/index.js" defer></script>
 </head>
 <body>
     <form id="uv-form">
@@ -14,7 +14,6 @@
         <button type="submit">Go</button>
     </form>
 
-    <!-- Main frontend logic -->
-    <script src="/index.js"></script>
+    <script src="/index.js" defer></script>
 </body>
 </html>
