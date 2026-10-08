@@ -1,29 +1,26 @@
-const form = document.getElementById('uv-form');
-const address = document.getElementById('uv-address');
-const searchEngine = document.getElementById('uv-search-engine');
-const error = document.getElementById('uv-error');
-const errorCode = document.getElementById('uv-error-code');
+import express from 'express';
+import { createServer } from 'node:http';
+import createBareServer from '@tomphttp/bare-server-node';
 
-if (form) {
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+const app = express();
+const server = createServer();
+const bare = createBareServer('/bare/');
 
-    try {
-      await registerSW();
-
-      const url = search(address.value, searchEngine.value);
-      const encodedUrl = __uv$config.prefix + __uv$config.encodeUrl(url);
-
-      const iframe = document.getElementById('uv-frame');
-      if (iframe && iframe.style.display !== 'none') {
-        iframe.src = encodedUrl;
-      } else {
-        window.location.href = encodedUrl;
-      }
-    } catch (err) {
-      if (error) error.textContent = 'Failed to route request.';
-      if (errorCode) errorCode.textContent = err.toString();
-      console.error(err);
+// Intercept requests for the Bare Server endpoint
+server.on('request', (req, res) => {
+    if (bare.shouldRoute(req)) {
+        bare.routeRequest(req, res);
+    } else {
+        app(req, res);
     }
-  });
-}
+});
+
+server.on('upgrade', (req, socket, head) => {
+    if (bare.shouldRoute(req)) {
+        bare.routeUpgrade(req, socket, head);
+    } else {
+        socket.end();
+    }
+});
+
+server.listen(process.env.PORT || 8080);
