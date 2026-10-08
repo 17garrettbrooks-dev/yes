@@ -16,6 +16,7 @@ const publicPath = join(process.cwd(), 'public');
 // Serve static client dependencies
 app.use('/uv/', express.static(uvPath));
 app.use('/baremux/', express.static(baremuxPath));
+app.use('/bareasmodule/', express.static(baremuxPath));
 app.use('/epoxy/', express.static(epoxyPath));
 
 // Serve frontend static files
