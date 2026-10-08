@@ -14,8 +14,15 @@ const bare = createBareServer('/bare/');
 const PORT = process.env.PORT || 8080;
 const publicPath = join(process.cwd(), 'public');
 
-// Serve static client dependencies
-app.use('/uv/', express.static(uvPath));
+// Serve static client dependencies with Service Worker header
+app.use('/uv/', express.static(uvPath, {
+  setHeaders: (res, path) => {
+    if (path.endsWith('uv.sw.js')) {
+      res.setHeader('Service-Worker-Allowed', '/uv/service/');
+    }
+  }
+}));
+
 app.use('/baremux/', express.static(baremuxPath));
 app.use('/epoxy/', express.static(epoxyPath));
 
@@ -35,7 +42,7 @@ server.on('request', (req, res) => {
 server.on('upgrade', (req, socket, head) => {
   if (bare.shouldRoute(req)) {
     bare.routeUpgrade(req, socket, head);
-  } else if (req.url.endsWith('/wisp/')) {
+  } else if (req.url.includes('/wisp')) {
     wisp.routeRequest(req, socket, head);
   } else {
     socket.end();
