@@ -5,6 +5,7 @@ import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
 import { epoxyPath } from '@mercuryworkshop/epoxy-transport';
 import { join } from 'node:path';
+import fs from 'node:fs';
 
 const app = express();
 const server = createServer();
@@ -16,8 +17,16 @@ const publicPath = join(process.cwd(), 'public');
 // Serve static client dependencies
 app.use('/uv/', express.static(uvPath));
 app.use('/baremux/', express.static(baremuxPath));
-app.use('/bareasmodule/', express.static(baremuxPath));
 app.use('/epoxy/', express.static(epoxyPath));
+
+// Dynamic fallback route for bareasmodule to prevent 404 crashes
+const bareAsModulePath = join(process.cwd(), 'node_modules', '@mercuryworkshop', 'bare-as-module');
+if (fs.existsSync(bareAsModulePath)) {
+  app.use('/bareasmodule/', express.static(bareAsModulePath));
+} else {
+  // Fallback to baremuxPath if package isn't separate
+  app.use('/bareasmodule/', express.static(baremuxPath));
+}
 
 // Serve frontend static files
 app.use(express.static(publicPath));
