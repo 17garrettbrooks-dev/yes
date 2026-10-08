@@ -3,7 +3,7 @@ import express from 'express';
 import { createServer } from 'node:http';
 import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
-import { epoxyPath } from '@mercuryworkshop/epoxy-transport/node';
+import { epoxyPath } from '@mercuryworkshop/epoxy-transport';
 import { join } from 'node:path';
 
 const app = express();
