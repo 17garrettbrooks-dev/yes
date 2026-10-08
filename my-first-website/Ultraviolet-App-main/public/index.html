@@ -24,6 +24,7 @@
 		<link rel="shortcut icon" content="favicon.ico" />
 		<link rel="stylesheet" href="index.css" />
 
+		<!-- Core Ultraviolet dependencies -->
 		<script src="baremux/index.js"></script>
 		<script src="uv/uv.bundle.js"></script>
 		<script src="uv/uv.config.js"></script>
@@ -60,9 +61,10 @@
 		</div>
 
 		<form id="uv-form" class="flex-center">
+			<!-- DuckDuckGo prevents Google 429 rate-limit errors on Render -->
 			<input
 				id="uv-search-engine"
-				value="https://www.google.com/search?q=%s"
+				value="https://duckduckgo.com/?q=%s"
 				type="hidden"
 			/>
 			<input id="uv-address" type="text" placeholder="Search the web freely" />
@@ -98,6 +100,8 @@
 			</div>
 		</footer>
 		<iframe style="display: none" id="uv-frame"></iframe>
+
+		<!-- Client Scripts loaded at the end of the body -->
 		<script src="register-sw.js"></script>
 		<script src="search.js"></script>
 		<script src="index.js"></script>
