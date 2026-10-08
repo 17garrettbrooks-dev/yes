@@ -4,7 +4,6 @@ import { createServer } from 'node:http';
 import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
 import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
 import { epoxyPath } from '@mercuryworkshop/epoxy-transport';
-import { bareModulePath } from '@mercuryworkshop/bare-as-module3';
 import { join } from 'node:path';
 
 const app = express();
@@ -18,11 +17,6 @@ const publicPath = join(process.cwd(), 'public');
 app.use('/uv/', express.static(uvPath));
 app.use('/baremux/', express.static(baremuxPath));
 app.use('/epoxy/', express.static(epoxyPath));
-
-// Fallback static route for bareasmodule requests
-if (bareModulePath) {
-  app.use('/bareasmodule/', express.static(bareModulePath));
-}
 
 // Serve frontend static files
 app.use(express.static(publicPath));
