@@ -1,14 +1,11 @@
 // 1. Search helper function
 function search(input, template) {
   try {
-    // If it's already a full URL (e.g., https://google.com), use it directly
     return new URL(input).toString();
   } catch (err) {
-    // If it looks like a domain without protocol (e.g., wikipedia.org or site.com/page)
     if (input.includes('.') && !input.includes(' ')) {
       return `https://${input}`;
     }
-    // Otherwise, treat it as a raw search query
     return template.replace('%s', encodeURIComponent(input));
   }
 }
