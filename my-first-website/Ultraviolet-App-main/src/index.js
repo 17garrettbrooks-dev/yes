@@ -2,6 +2,8 @@ import { createBareServer } from '@tomphttp/bare-server-node';
 import express from 'express';
 import { createServer } from 'node:http';
 import { uvPath } from '@titaniumnetwork-dev/ultraviolet';
+import { baremuxPath } from '@mercuryworkshop/bare-mux/node';
+import { epoxyPath } from '@mercuryworkshop/epoxy-transport/node';
 import { join } from 'node:path';
 
 const app = express();
@@ -13,6 +15,12 @@ const publicPath = join(process.cwd(), 'public');
 
 // Serve Ultraviolet static client files
 app.use('/uv/', express.static(uvPath));
+
+// Serve BareMux static client files
+app.use('/baremux/', express.static(baremuxPath));
+
+// Serve Epoxy transport static files
+app.use('/epoxy/', express.static(epoxyPath));
 
 // Serve frontend static files
 app.use(express.static(publicPath));
